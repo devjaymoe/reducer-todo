@@ -1,18 +1,28 @@
 import React, { useState, useReducer} from 'react';
-import { reducer, initialState } from '../reducers/reducer';
+import { initialState, reducer } from '../reducers/reducer';
 
 function Todo (){
-    const [todo, dispatch] = useReducer(reducer, initialState);
+    const [newTodo, setNewTodo] = useState();
+    const [state, dispatch] = useReducer(reducer, initialState);
 
-    // const [todo, setItem] = useState({
-    //     task: 'Complete todo list',
-    //     completed: false,
-    //     id: Date.now()
-    // });
-
+    // handle changes for input
     const handleChanges = e => {
-        dispatch({ [e.target.name]: e.target.value});
+        e.preventDefault();
+        setNewTodo(e.target.value);
     };
+
+    // handlers for submittion of form
+    // addTodo = e => {
+    //     e.preventDefault();
+    //     dispatch({ task: '' });
+    // };
+
+    // clearTodo = e => {
+    //     e.preventDefault();
+    //     dispatch({
+    //         list: this.state.list.filter(task => !task.completed)
+    //     });
+    // };
 
     // toggleTask = taskId => {
     // //console.log(taskId)
@@ -32,32 +42,23 @@ function Todo (){
         <div>
             <div>
                 <input
-                className="todo-input"
-                type="text"
-                name="item"
-                value={todo.task}
-                onChange={handleChanges}
+                    className='todoInput'
+                    type='text'
+                    value={newTodo}
+                    onChange={handleChanges}
                 />
-                <button
-                onClick={() =>
-                    dispatch({ type: 'add-todo', payload: todo.task })
-                }
-                >
-                Add Todo
-                </button>
+                <button onClick={() => dispatch({ type: 'ADD_TODO', payload: newTodo})}>Add Todo</button>
             </div>
-
-            <ul className='task-container'>
-                {todo.map( item => (
-                    <div
+            <ul>
+                {/* map over todo's and create li's, on click toggle complete */}
+                {state.todos.map( ( item, index ) => (
+                    <li
                         className={`task ${item.completed ? 'completed' : ''}`}
-                        // onClick={() => state.toggleTask(props.item.id)}
-                    >
-                        <li>{item.task}</li>
-                    </div>
+                        key={index}
+                        // onClick={() => props.toggleTask(props.item.id)}
+                    >{item.task}</li>
                 ))}
             </ul>
-
         </div>
     );
 }
