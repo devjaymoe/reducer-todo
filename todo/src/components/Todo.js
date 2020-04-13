@@ -11,12 +11,6 @@ function Todo (){
         setNewTodo(e.target.value);
     };
 
-    // handlers for submittion of form
-    // addTodo = e => {
-    //     e.preventDefault();
-    //     dispatch({ task: '' });
-    // };
-
     // clearTodo = e => {
     //     e.preventDefault();
     //     dispatch({
@@ -24,20 +18,11 @@ function Todo (){
     //     });
     // };
 
-    // toggleTask = taskId => {
-    // //console.log(taskId)
-    //     setState({
-    //         list: this.state.list.map(item => {
-    //         if( taskId === item.id ){
-    //             return {
-    //             ...item,
-    //             completed: !item.completed
-    //             };
-    //         }
-    //         return item;
-    //         })
-    //     })
-    // }
+    const toggleTask = taskId => {
+        //console.log(taskId)
+        dispatch({ type: 'TOGGLE_COMPLETE', payload: taskId })
+    }
+
     return (
         <div>
             <div>
@@ -55,7 +40,7 @@ function Todo (){
                     <li
                         className={`task ${item.completed ? 'completed' : ''}`}
                         key={index}
-                        // onClick={() => props.toggleTask(props.item.id)}
+                        onClick={() => toggleTask(item.id)}
                     >{item.task}</li>
                 ))}
             </ul>
